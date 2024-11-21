@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR Clothing Try On</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* General Body Styling */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #d2e3fc, #a2b3f7);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        /* Sticky Navigation Bar */
+        .navbar {
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px 0;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: white;
+            margin: 0 15px;
+            font-size: 1.5em;
+            font-weight: 600;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar a:hover {
+            color: #4CAF50;
+        }
+
+        .navbar img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+            border-radius: 5px;
+        }
+
+        /* Main Container Styling */
+        .container {
+            text-align: center;
+            max-width: 1000px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            background-color: #fff;
+            border-radius: 20px;
+            padding: 50px;
+            margin-top: 100px; /* To account for the sticky navbar */
+            transition: all 0.3s ease;
+            animation: fadeIn 1.2s ease-out;
+        }
+
+        /* Fade-in animation for the container */
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        .container:hover {
+            box-shadow: 0 12px 60px rgba(0, 0, 0, 0.2);
+            transform: scale(1.03);
+        }
+
+        /* Header Styling */
+        .container h1 {
+            color: #333;
+            font-size: 3.5em;
+            margin-bottom: 30px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        /* Store List Text (non-clickable) */
+        .store-list {
+            font-size: 1.6em;
+            color: #333;
+            margin-top: 20px;
+            font-weight: 500;
+            cursor: default;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+
+        .store-list:hover {
+            color: #4CAF50;
+            text-decoration: underline;
+        }
+
+        /* Store Link Styling - Card Style */
+        .store-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 40px;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .store-link:hover {
+            background-color: #e3f4e0;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            transform: translateY(-5px) rotateY(10deg);
+            transition: all 0.3s ease;
+        }
+
+        /* Styling for Store Logos */
+        .store-link img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            margin-right: 20px;
+            transition: transform 0.4s ease;
+        }
+
+        .store-link img:hover {
+            transform: scale(1.1);
+        }
+
+        /* Store Name Styling */
+        .store-link p {
+            font-size: 2em;
+            color: #333;
+            font-weight: 600;
+            margin: 0;
+            text-transform: capitalize;
+            letter-spacing: 1px;
+        }
+
+        /* Footer Styling */
+        .footer {
+            font-size: 1.1em;
+            color: #555;
+            margin-top: 50px;
+        }
+
+        .footer p {
+            margin: 15px 0;
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            .store-link img {
+                width: 60px;
+                height: 60px;
+            }
+
+            .container h1 {
+                font-size: 2.5em;
+            }
+
+            .store-list {
+                font-size: 1.3em;
+            }
+
+            .store-link p {
+                font-size: 1.6em;
+            }
+        }
+
+        /* Scroll animation for store cards */
+        .store-link {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+
+        .store-link.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <a href="#ai-project">
+            <img src="moodeng.jpg" alt="AI Project Logo"> <!-- Add logo here -->
+            AI Project
+        </a>
+    </div>
+
+    <div class="container">
+        <h1>AR Clothing Try On</h1>
+        <div class="store-list">Store List</div>
+
+        <!-- Thammasat University Store -->
+        <div class="store-link">
+            <a href="https://lens.snap.com/experience/b6c58b89-ea97-4cd1-8a4d-63b0bdf5cd77" target="_blank">
+                <img src="thammasat_logo.png" alt="Thammasat University Logo">
+                <p>Thammasat University</p>
+            </a>
+        </div>
+
+        <!-- Chulalongkorn University Store -->
+        <div class="store-link">
+            <a href="#" target="_blank">
+                <img src="cu_logo.png" alt="Chulalongkorn University Logo">
+                <p>Chulalongkorn University</p>
+            </a>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2024 AR Clothing Try On. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script>
+        // Scroll animation
+        const storeLinks = document.querySelectorAll('.store-link');
+        window.addEventListener('scroll', function() {
+            const scrollPosition = window.scrollY + window.innerHeight;
+            storeLinks.forEach(function(link) {
+                if (link.offsetTop < scrollPosition) {
+                    link.classList.add('visible');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
